@@ -73,7 +73,6 @@ const PHASE_WORKOUTS: Record<Phase, WorkoutDay[]> = {
         { name: "KB Swing", category: "Legs", baseSets: 3, reps: "15" },
         { name: "Gi Pull-Ups", category: "Grip", baseSets: 3, reps: "Max", isSupplemental: true },
         { name: "Pallof Press", category: "Core", baseSets: 3, reps: "10/side", isSupplemental: true },
-        { name: "Neck Rotations", category: "Neck", baseSets: 3, reps: "20/side", isSupplemental: true },
       ],
     },
   ],
@@ -107,7 +106,6 @@ const PHASE_WORKOUTS: Record<Phase, WorkoutDay[]> = {
         { name: "Weighted Pull-Up", category: "Pull", baseSets: 4, reps: "3-5" },
         { name: "Gi Pull-Ups", category: "Grip", baseSets: 3, reps: "Max", isSupplemental: true },
         { name: "Supine Neck Flexion", category: "Neck", baseSets: 3, reps: "15-25", isSupplemental: true },
-        { name: "Plate Pinch Hold", category: "Grip", baseSets: 3, reps: "30-45s", isSupplemental: true },
       ],
     },
   ],
@@ -237,14 +235,22 @@ export default function WorkoutScreen() {
 
   const activeExercises = shuffledExercises ?? workout.exercises;
 
-  const adjustedExercises = useMemo(
-    () =>
-      activeExercises.map((ex) => ({
+  const MAX_ARMOR = 2;
+
+  const adjustedExercises = useMemo(() => {
+    let armorCount = 0;
+    return activeExercises.reduce<(Exercise & { adjustedSets: number })[]>((acc, ex) => {
+      if (ex.isSupplemental) {
+        if (armorCount >= MAX_ARMOR) return acc;
+        armorCount++;
+      }
+      acc.push({
         ...ex,
         adjustedSets: Math.max(1, Math.floor(ex.baseSets * volumeModifier)),
-      })),
-    [activeExercises, volumeModifier]
-  );
+      });
+      return acc;
+    }, []);
+  }, [activeExercises, volumeModifier]);
 
   return (
     <View style={styles.container}>
