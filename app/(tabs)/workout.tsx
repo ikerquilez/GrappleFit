@@ -1,16 +1,19 @@
-import { useState, useMemo } from "react";
-import { StyleSheet, FlatList, Pressable } from "react-native";
+import { useState, useMemo, useCallback, useEffect } from "react";
+import { StyleSheet, FlatList, Pressable, ActivityIndicator } from "react-native";
 import { Text, View } from "@/components/Themed";
 import { useTrainingStore } from "@/store/useTrainingStore";
 import { useWeightStore } from "@/store/useWeightStore";
+import { supabase } from "@/services/supabase";
 import Colors from "@/constants/Colors";
 import { useColorScheme } from "@/components/useColorScheme";
+import FontAwesome from "@expo/vector-icons/FontAwesome";
 
 type Phase = "Hypertrophy" | "Strength" | "Power" | "Taper";
+type Category = "Push" | "Pull" | "Legs" | "Neck" | "Grip" | "Core";
 
 interface Exercise {
   name: string;
-  category: "Push" | "Pull" | "Legs" | "Neck" | "Grip" | "Core";
+  category: Category;
   baseSets: number;
   reps: string;
   isSupplemental?: boolean;
@@ -21,6 +24,20 @@ interface WorkoutDay {
   focus: "Upper" | "Lower" | "Full";
   exercises: Exercise[];
 }
+
+interface DbExercise {
+  name: string;
+  category: string;
+  is_supplemental: boolean;
+}
+
+const CATEGORY_MAP: Record<string, Category> = {
+  Push: "Push",
+  Pull: "Pull",
+  Legs: "Legs",
+  Neck: "Neck",
+  Grip: "Grip",
+};
 
 const PHASE_WORKOUTS: Record<Phase, WorkoutDay[]> = {
   Hypertrophy: [
@@ -131,6 +148,20 @@ const PHASE_WORKOUTS: Record<Phase, WorkoutDay[]> = {
   ],
 };
 
+const PHASE_REPS: Record<Phase, string> = {
+  Hypertrophy: "8-10",
+  Strength: "3-5",
+  Power: "2-3",
+  Taper: "2-3",
+};
+
+function pickRandom<T>(arr: T[], exclude?: string): T {
+  const filtered = exclude
+    ? arr.filter((item) => (item as any).name !== exclude)
+    : arr;
+  return filtered[Math.floor(Math.random() * filtered.length)] ?? arr[0];
+}
+
 function getPhase(daysUntilComp: number | null): Phase {
   if (daysUntilComp === null || daysUntilComp > 56) return "Hypertrophy";
   if (daysUntilComp > 21) return "Strength";
@@ -141,8 +172,12 @@ function getPhase(daysUntilComp: number | null): Phase {
 export default function WorkoutScreen() {
   const colorScheme = useColorScheme() ?? "light";
   const tint = Colors[colorScheme].tint;
-  const { volumeModifier, todayLogged } = useTrainingStore();
+  const { volumeModifier } = useTrainingStore();
   const { competitionDate } = useWeightStore();
+
+  const [dbExercises, setDbExercises] = useState<DbExercise[]>([]);
+  const [shuffledExercises, setShuffledExercises] = useState<Exercise[] | null>(null);
+  const [shuffling, setShuffling] = useState(false);
 
   const daysUntilComp = competitionDate
     ? Math.ceil(
@@ -156,27 +191,100 @@ export default function WorkoutScreen() {
   const [selectedDay, setSelectedDay] = useState(0);
   const workout = days[selectedDay] ?? days[0];
 
+  useEffect(() => {
+    supabase
+      .from("exercises")
+      .select("name, category, is_supplemental")
+      .then(({ data }) => {
+        if (data) setDbExercises(data);
+      });
+  }, []);
+
+  useEffect(() => {
+    setShuffledExercises(null);
+  }, [selectedDay, phase]);
+
+  const handleShuffle = useCallback(() => {
+    if (dbExercises.length === 0) return;
+    setShuffling(true);
+
+    const byCategory: Record<string, DbExercise[]> = {};
+    for (const ex of dbExercises) {
+      const cat = ex.category;
+      if (!byCategory[cat]) byCategory[cat] = [];
+      byCategory[cat].push(ex);
+    }
+
+    const newExercises = workout.exercises.map((original) => {
+      const catKey = original.category === "Core" ? "Push" : original.category;
+      const pool = byCategory[catKey];
+      if (!pool || pool.length <= 1) return original;
+
+      const picked = pickRandom(pool, original.name);
+      const mappedCategory = CATEGORY_MAP[picked.category] ?? original.category;
+
+      return {
+        ...original,
+        name: picked.name,
+        category: mappedCategory,
+        isSupplemental: picked.is_supplemental || original.isSupplemental,
+      };
+    });
+
+    setShuffledExercises(newExercises);
+    setTimeout(() => setShuffling(false), 200);
+  }, [dbExercises, workout]);
+
+  const activeExercises = shuffledExercises ?? workout.exercises;
+
   const adjustedExercises = useMemo(
     () =>
-      workout.exercises.map((ex) => ({
+      activeExercises.map((ex) => ({
         ...ex,
         adjustedSets: Math.max(1, Math.floor(ex.baseSets * volumeModifier)),
       })),
-    [workout, volumeModifier]
+    [activeExercises, volumeModifier]
   );
 
   return (
     <View style={styles.container}>
       <FlatList
         data={adjustedExercises}
-        keyExtractor={(item) => item.name}
+        keyExtractor={(item, index) => `${item.name}-${index}`}
         ListHeaderComponent={
           <View>
-            <Text style={styles.title}>Workout</Text>
-            <Text style={styles.phase}>
-              {phase} Phase
-              {daysUntilComp !== null && ` · ${daysUntilComp}d to comp`}
-            </Text>
+            <View style={styles.titleRow}>
+              <View style={{ flex: 1 }}>
+                <Text style={styles.title}>Workout</Text>
+                <Text style={styles.phase}>
+                  {phase} Phase
+                  {daysUntilComp !== null && ` · ${daysUntilComp}d to comp`}
+                </Text>
+              </View>
+              <Pressable
+                style={[styles.shuffleButton, { borderColor: tint }]}
+                onPress={handleShuffle}
+                disabled={shuffling || dbExercises.length === 0}
+              >
+                {shuffling ? (
+                  <ActivityIndicator size="small" color={tint} />
+                ) : (
+                  <>
+                    <FontAwesome name="random" size={14} color={tint} />
+                    <Text style={[styles.shuffleText, { color: tint }]}>Shuffle</Text>
+                  </>
+                )}
+              </Pressable>
+            </View>
+
+            {shuffledExercises && (
+              <Pressable
+                style={styles.resetLink}
+                onPress={() => setShuffledExercises(null)}
+              >
+                <Text style={{ color: tint, fontSize: 13 }}>Reset to default</Text>
+              </Pressable>
+            )}
 
             {volumeModifier < 1 && (
               <View style={[styles.volumeBanner, { backgroundColor: `${tint}20` }]}>
@@ -245,8 +353,20 @@ export default function WorkoutScreen() {
 const styles = StyleSheet.create({
   container: { flex: 1 },
   list: { padding: 16, paddingBottom: 32 },
+  titleRow: { flexDirection: "row", alignItems: "flex-start", marginBottom: 4 },
   title: { fontSize: 24, fontWeight: "bold" },
   phase: { fontSize: 14, color: "#999", marginBottom: 12 },
+  shuffleButton: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 6,
+    paddingHorizontal: 14,
+    paddingVertical: 8,
+    borderRadius: 8,
+    borderWidth: 1.5,
+  },
+  shuffleText: { fontSize: 14, fontWeight: "600" },
+  resetLink: { marginBottom: 12 },
   volumeBanner: {
     padding: 12,
     borderRadius: 8,
