@@ -46,6 +46,19 @@ const PHASE_WORKOUTS: Record<Phase, WorkoutDay[]> = {
         { name: "Plate Pinch Hold", category: "Grip", baseSets: 3, reps: "30-45s", isSupplemental: true },
       ],
     },
+    {
+      label: "Day C — Full Body",
+      focus: "Full",
+      exercises: [
+        { name: "Trap Bar Deadlift", category: "Legs", baseSets: 3, reps: "8-10" },
+        { name: "Bench Press", category: "Push", baseSets: 3, reps: "8-10" },
+        { name: "Barbell Row", category: "Pull", baseSets: 3, reps: "8-10" },
+        { name: "KB Swing", category: "Legs", baseSets: 3, reps: "15" },
+        { name: "Gi Pull-Ups", category: "Grip", baseSets: 3, reps: "Max", isSupplemental: true },
+        { name: "Pallof Press", category: "Core", baseSets: 3, reps: "10/side", isSupplemental: true },
+        { name: "Neck Rotations", category: "Neck", baseSets: 3, reps: "20/side", isSupplemental: true },
+      ],
+    },
   ],
   Strength: [
     {
@@ -68,6 +81,18 @@ const PHASE_WORKOUTS: Record<Phase, WorkoutDay[]> = {
         { name: "Plate Pinch Hold", category: "Grip", baseSets: 3, reps: "30-45s", isSupplemental: true },
       ],
     },
+    {
+      label: "Day C — Full Body",
+      focus: "Full",
+      exercises: [
+        { name: "Trap Bar Deadlift", category: "Legs", baseSets: 4, reps: "3-5" },
+        { name: "Bench Press", category: "Push", baseSets: 4, reps: "3-5" },
+        { name: "Weighted Pull-Up", category: "Pull", baseSets: 4, reps: "3-5" },
+        { name: "Gi Pull-Ups", category: "Grip", baseSets: 3, reps: "Max", isSupplemental: true },
+        { name: "Supine Neck Flexion", category: "Neck", baseSets: 3, reps: "15-25", isSupplemental: true },
+        { name: "Plate Pinch Hold", category: "Grip", baseSets: 3, reps: "30-45s", isSupplemental: true },
+      ],
+    },
   ],
   Power: [
     {
@@ -77,6 +102,18 @@ const PHASE_WORKOUTS: Record<Phase, WorkoutDay[]> = {
         { name: "Speed Squat", category: "Legs", baseSets: 6, reps: "2" },
         { name: "Plyo Push-Up", category: "Push", baseSets: 4, reps: "5" },
         { name: "Box Jump", category: "Legs", baseSets: 4, reps: "3" },
+        { name: "Neck Rotations", category: "Neck", baseSets: 2, reps: "15/side", isSupplemental: true },
+      ],
+    },
+    {
+      label: "Day B — Full Body Power",
+      focus: "Full",
+      exercises: [
+        { name: "Trap Bar Deadlift", category: "Legs", baseSets: 4, reps: "2" },
+        { name: "Speed Squat", category: "Legs", baseSets: 4, reps: "2" },
+        { name: "Plyo Push-Up", category: "Push", baseSets: 3, reps: "5" },
+        { name: "Box Jump", category: "Legs", baseSets: 3, reps: "3" },
+        { name: "KB Swing", category: "Legs", baseSets: 3, reps: "10" },
         { name: "Neck Rotations", category: "Neck", baseSets: 2, reps: "15/side", isSupplemental: true },
       ],
     },

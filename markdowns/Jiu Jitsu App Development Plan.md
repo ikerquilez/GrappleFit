@@ -215,26 +215,29 @@ The application will automatically generate this timeline based on the user's in
 ### **Week 8-6: General Physical Preparedness (GPP) & Hypertrophy**
 
 * **Goal:** Build tissue tolerance and aerobic capacity.  
-* **Lifting:** 3-4 days/week. Moderate Intensity (70-75% 1RM), Higher Volume (4x8-10).  
-* **Cardio:** Zone 2 focus (3x/week).  
-* **BJJ:** Moderate intensity, focus on skill acquisition.  
+* **Lifting:** 3-4 days/week. Moderate Intensity (70-75% 1RM), Higher Volume (4x8-10). Options: Upper/Lower split or Full Body.
+* **Cardio:** Zone 2 focus (3x/week).
+* **BJJ:** Moderate intensity, focus on skill acquisition.
 * **Autoregulation:** Low sensitivity. User encouraged to lift even if tired.
+* **Full Body Option:** Trap Bar Deadlift, Bench Press, Barbell Row, KB Swing + all supplementals. Ideal for athletes who can only lift 2x/week.
 
 ### **Week 5-3: Strength & Threshold**
 
 * **Goal:** Maximize force production and lactate threshold.  
-* **Lifting:** 3 days/week. High Intensity (80-90% 1RM), Moderate Volume (3-5 sets x 3-5 reps).  
-* **Cardio:** Aerodyne Intervals (2x/week).  
-* **BJJ:** High intensity. "Shark tanks" and hard sparring.  
+* **Lifting:** 3 days/week. High Intensity (80-90% 1RM), Moderate Volume (3-5 sets x 3-5 reps). Options: Upper/Lower split or Full Body.
+* **Cardio:** Aerodyne Intervals (2x/week).
+* **BJJ:** High intensity. "Shark tanks" and hard sparring.
 * **Autoregulation:** Moderate sensitivity. If BJJ is "Hard," lifting volume is cut by 25%.
+* **Full Body Option:** Trap Bar Deadlift, Bench Press, Weighted Pull-Up + grip and neck supplementals. Consolidates load into fewer sessions.
 
 ### **Week 2: Power & Specificity (Peaking)**
 
 * **Goal:** Conversion of strength to power; Sharpening.  
-* **Lifting:** 2 days/week. Explosive movements (Jumps, Throws, Speed Squats). Low weight (50-60%), Max Velocity.  
-* **Cardio:** Alactic Sprints (short duration, full recovery).  
-* **BJJ:** Intensity remains high, but volume (rounds) decreases.  
+* **Lifting:** 2 days/week. Explosive movements (Jumps, Throws, Speed Squats). Low weight (50-60%), Max Velocity. Options: Explosive day or Full Body Power.
+* **Cardio:** Alactic Sprints (short duration, full recovery).
+* **BJJ:** Intensity remains high, but volume (rounds) decreases.
 * **Autoregulation:** High sensitivity. Any sign of injury or extreme fatigue triggers a "Rest Day" recommendation.
+* **Full Body Power Option:** Trap Bar Deadlift, Speed Squat, Plyo Push-Up, Box Jump, KB Swing + neck work. Combines all explosive work into one session.
 
 ### **Week 1: Taper (Competition Week)**
 
