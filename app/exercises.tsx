@@ -24,12 +24,12 @@ interface Section {
   data: DbExercise[];
 }
 
-const CATEGORY_ORDER = ["Push", "Pull", "Legs", "Grip", "Neck", "Cardio"];
+const CATEGORY_ORDER = ["Push", "Pull", "Hinge & Squat", "Grip", "Neck", "Cardio"];
 
 const CATEGORY_ICONS: Record<string, React.ComponentProps<typeof FontAwesome>["name"]> = {
   Push: "hand-rock-o",
   Pull: "hand-grab-o",
-  Legs: "bolt",
+  "Hinge & Squat": "bolt",
   Grip: "hand-paper-o",
   Neck: "shield",
   Cardio: "heartbeat",

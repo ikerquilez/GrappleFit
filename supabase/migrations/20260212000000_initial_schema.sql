@@ -22,7 +22,7 @@ create table public.daily_logs (
 create table public.exercises (
   id uuid default gen_random_uuid() primary key,
   name text not null,
-  category text check (category in ('Push', 'Pull', 'Legs', 'Neck', 'Grip', 'Cardio')),
+  category text check (category in ('Push', 'Pull', 'Hinge & Squat', 'Neck', 'Grip', 'Cardio')),
   is_supplemental boolean default false,
   created_at timestamptz default now()
 );

@@ -9,7 +9,7 @@ import { useColorScheme } from "@/components/useColorScheme";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
 
 type Phase = "Hypertrophy" | "Strength" | "Power" | "Taper";
-type Category = "Push" | "Pull" | "Legs" | "Neck" | "Grip" | "Core";
+type Category = "Push" | "Pull" | "Hinge & Squat" | "Neck" | "Grip" | "Core";
 
 interface Exercise {
   name: string;
@@ -34,7 +34,7 @@ interface DbExercise {
 const CATEGORY_MAP: Record<string, Category> = {
   Push: "Push",
   Pull: "Pull",
-  Legs: "Legs",
+  "Hinge & Squat": "Hinge & Squat",
   Neck: "Neck",
   Grip: "Grip",
 };
@@ -56,9 +56,9 @@ const PHASE_WORKOUTS: Record<Phase, WorkoutDay[]> = {
       label: "Day B — Lower",
       focus: "Lower",
       exercises: [
-        { name: "Trap Bar Deadlift", category: "Legs", baseSets: 4, reps: "8-10" },
-        { name: "Zercher Squat", category: "Legs", baseSets: 4, reps: "8-10" },
-        { name: "KB Swing", category: "Legs", baseSets: 3, reps: "15" },
+        { name: "Trap Bar Deadlift", category: "Hinge & Squat", baseSets: 4, reps: "8-10" },
+        { name: "Zercher Squat", category: "Hinge & Squat", baseSets: 4, reps: "8-10" },
+        { name: "KB Swing", category: "Hinge & Squat", baseSets: 3, reps: "15" },
         { name: "Pallof Press", category: "Core", baseSets: 3, reps: "10/side", isSupplemental: true },
         { name: "Plate Pinch Hold", category: "Grip", baseSets: 3, reps: "30-45s", isSupplemental: true },
       ],
@@ -67,10 +67,10 @@ const PHASE_WORKOUTS: Record<Phase, WorkoutDay[]> = {
       label: "Day C — Full Body",
       focus: "Full",
       exercises: [
-        { name: "Trap Bar Deadlift", category: "Legs", baseSets: 3, reps: "8-10" },
+        { name: "Trap Bar Deadlift", category: "Hinge & Squat", baseSets: 3, reps: "8-10" },
         { name: "Bench Press", category: "Push", baseSets: 3, reps: "8-10" },
         { name: "Barbell Row", category: "Pull", baseSets: 3, reps: "8-10" },
-        { name: "KB Swing", category: "Legs", baseSets: 3, reps: "15" },
+        { name: "KB Swing", category: "Hinge & Squat", baseSets: 3, reps: "15" },
         { name: "Gi Pull-Ups", category: "Grip", baseSets: 3, reps: "Max", isSupplemental: true },
         { name: "Pallof Press", category: "Core", baseSets: 3, reps: "10/side", isSupplemental: true },
       ],
@@ -91,8 +91,8 @@ const PHASE_WORKOUTS: Record<Phase, WorkoutDay[]> = {
       label: "Day B — Lower",
       focus: "Lower",
       exercises: [
-        { name: "Trap Bar Deadlift", category: "Legs", baseSets: 5, reps: "3-5" },
-        { name: "Zercher Squat", category: "Legs", baseSets: 4, reps: "5" },
+        { name: "Trap Bar Deadlift", category: "Hinge & Squat", baseSets: 5, reps: "3-5" },
+        { name: "Zercher Squat", category: "Hinge & Squat", baseSets: 4, reps: "5" },
         { name: "Sandbag Get-Up", category: "Core", baseSets: 1, reps: "5/side", isSupplemental: true },
         { name: "Plate Pinch Hold", category: "Grip", baseSets: 3, reps: "30-45s", isSupplemental: true },
       ],
@@ -101,7 +101,7 @@ const PHASE_WORKOUTS: Record<Phase, WorkoutDay[]> = {
       label: "Day C — Full Body",
       focus: "Full",
       exercises: [
-        { name: "Trap Bar Deadlift", category: "Legs", baseSets: 4, reps: "3-5" },
+        { name: "Trap Bar Deadlift", category: "Hinge & Squat", baseSets: 4, reps: "3-5" },
         { name: "Bench Press", category: "Push", baseSets: 4, reps: "3-5" },
         { name: "Weighted Pull-Up", category: "Pull", baseSets: 4, reps: "3-5" },
         { name: "Gi Pull-Ups", category: "Grip", baseSets: 3, reps: "Max", isSupplemental: true },
@@ -114,9 +114,9 @@ const PHASE_WORKOUTS: Record<Phase, WorkoutDay[]> = {
       label: "Day A — Explosive",
       focus: "Full",
       exercises: [
-        { name: "Speed Squat", category: "Legs", baseSets: 6, reps: "2" },
+        { name: "Speed Squat", category: "Hinge & Squat", baseSets: 6, reps: "2" },
         { name: "Plyo Push-Up", category: "Push", baseSets: 4, reps: "5" },
-        { name: "Box Jump", category: "Legs", baseSets: 4, reps: "3" },
+        { name: "Box Jump", category: "Hinge & Squat", baseSets: 4, reps: "3" },
         { name: "Neck Rotations", category: "Neck", baseSets: 2, reps: "15/side", isSupplemental: true },
       ],
     },
@@ -124,11 +124,11 @@ const PHASE_WORKOUTS: Record<Phase, WorkoutDay[]> = {
       label: "Day B — Full Body Power",
       focus: "Full",
       exercises: [
-        { name: "Trap Bar Deadlift", category: "Legs", baseSets: 4, reps: "2" },
-        { name: "Speed Squat", category: "Legs", baseSets: 4, reps: "2" },
+        { name: "Trap Bar Deadlift", category: "Hinge & Squat", baseSets: 4, reps: "2" },
+        { name: "Speed Squat", category: "Hinge & Squat", baseSets: 4, reps: "2" },
         { name: "Plyo Push-Up", category: "Push", baseSets: 3, reps: "5" },
-        { name: "Box Jump", category: "Legs", baseSets: 3, reps: "3" },
-        { name: "KB Swing", category: "Legs", baseSets: 3, reps: "10" },
+        { name: "Box Jump", category: "Hinge & Squat", baseSets: 3, reps: "3" },
+        { name: "KB Swing", category: "Hinge & Squat", baseSets: 3, reps: "10" },
         { name: "Neck Rotations", category: "Neck", baseSets: 2, reps: "15/side", isSupplemental: true },
       ],
     },
@@ -138,7 +138,7 @@ const PHASE_WORKOUTS: Record<Phase, WorkoutDay[]> = {
       label: "Primer — Full Body",
       focus: "Full",
       exercises: [
-        { name: "Trap Bar Deadlift", category: "Legs", baseSets: 2, reps: "2" },
+        { name: "Trap Bar Deadlift", category: "Hinge & Squat", baseSets: 2, reps: "2" },
         { name: "Bench Press", category: "Push", baseSets: 2, reps: "2" },
         { name: "Pull-Up", category: "Pull", baseSets: 2, reps: "3" },
       ],
@@ -214,7 +214,7 @@ export default function WorkoutScreen() {
     }
 
     const newExercises = workout.exercises.map((original) => {
-      const catKey = original.category === "Core" ? "Push" : original.category;
+      const catKey = original.category === "Core" ? "Push" : original.category === "Hinge & Squat" ? "Hinge & Squat" : original.category;
       const pool = byCategory[catKey];
       if (!pool || pool.length <= 1) return original;
 
